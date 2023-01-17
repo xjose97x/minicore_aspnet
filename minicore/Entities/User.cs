@@ -6,6 +6,8 @@ namespace minicore.Entities
 {
     public class User : IdentityUser, IAuditable
     {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
         public virtual ICollection<Post>? Posts { get; set; } 
         public virtual ICollection<Post>? LikedPosts { get; set; }
 

@@ -12,7 +12,7 @@ using minicore.Data;
 namespace minicore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230117021455_initial")]
+    [Migration("20230117032533_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -325,6 +325,12 @@ namespace minicore.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
