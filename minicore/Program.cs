@@ -23,6 +23,8 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 
+builder.Services.AddCoreAdmin();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -54,6 +56,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+app.MapDefaultControllerRoute();
 
 app.Run();
 

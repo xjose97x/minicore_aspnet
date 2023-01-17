@@ -17,7 +17,6 @@ namespace minicore.Models
 				if (!context.Roles.Any())
 				{
 					await roleStore.CreateAsync(new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" });
-					await roleStore.CreateAsync(new IdentityRole { Name = "User", NormalizedName = "USER" });
 				}
 
 				if (!context.Users.Any())
@@ -72,9 +71,7 @@ namespace minicore.Models
 
 					await userStore.AddToRoleAsync(admin, "ADMIN");
                     await userStore.CreateAsync(admin);
-                    await userStore.AddToRoleAsync(user1, "USER");
 					await userStore.CreateAsync(user1);
-					await userStore.AddToRoleAsync(user2, "USER");
 					await userStore.CreateAsync(user2);
 				}
 			}
