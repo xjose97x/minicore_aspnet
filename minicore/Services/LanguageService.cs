@@ -17,7 +17,6 @@ namespace minicore.Services
 
         public float FleschKinkaidScore(string text)
         {
-            // calculate Flesch-Kinkaid score
             var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var sentences = text.Split('.', StringSplitOptions.RemoveEmptyEntries);
             var syllables = 0;
@@ -42,7 +41,6 @@ namespace minicore.Services
 
             var httpClient = httpClientFactory.CreateClient();
 
-            // call languagetool check API using httpClient
             var httpResponseMessage = await httpClient.PostAsJsonAsync($"https://languagetool.org/api/v2/check", new
             {
                 text = text,
