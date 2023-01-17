@@ -28,11 +28,15 @@
     <None Remove="Interfaces\" />
     <None Remove="Migrations\" />
     <None Remove="Microsoft.EntityFrameworkCore.Proxies" />
+    <None Remove="Services\" />
+    <None Remove="Models\LanguageTool\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
     <Folder Include="Entities\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Services\" />
+    <Folder Include="Models\LanguageTool\" />
   </ItemGroup>
 </Project>
