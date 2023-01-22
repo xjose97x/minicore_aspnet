@@ -29,7 +29,8 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         var posts = await context.Posts.ToListAsync();
-        IEnumerable<PostDto> postsDto = posts.Select(p => new PostDto(p));
+        var user = await GetUser();
+        IEnumerable<PostDto> postsDto = posts.Select(p => new PostDto(p, user?.Id));
         HomeViewModel model = new HomeViewModel(postsDto);
         return View(model);
     }
@@ -56,6 +57,37 @@ public class HomeController : Controller
         await context.AddAsync(post);
         await context.SaveChangesAsync();
         return RedirectToAction("Index", "Home");
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Details(string id)
+    {
+        var user = await GetUser();
+        var post = await context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+        var postDto = new PostDto(post!, user.Id);
+        return View(postDto);
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> React(string id)
+    {
+        var user = await GetUser();
+        var post = await context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+        if (post != null)
+        {
+            if (post.LikedBy.Any(u => u.Id == user.Id))
+            {
+                post.LikedBy.Remove(user);
+            }
+            else
+            {
+                post.LikedBy.Add(user);
+            }
+            await context.SaveChangesAsync();
+        }
+        return RedirectToAction("Details", "Home", new { id = id });
     }
 
     public IActionResult Privacy()

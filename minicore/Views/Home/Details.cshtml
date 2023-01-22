@@ -1,0 +1,52 @@
+@model minicore.ViewModels.PostDto
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+<h3>Stats</h3>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Author</th>
+            <th scope="col">Category</th>
+            <th scope="col">Flesch Kinkaid score</th>
+            <th scope="col">Liked by</th>
+            <th scope="col">Created at</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="#">@Model.Author.Name</a></td>
+            <td>@Model.Category</td>
+            <td>@Model.FleschKinkaidScore</td>
+            <td>
+                @string.Join(", ", Model.LikedBy)
+            </td>
+            <td>@Model.CreatedAt</td>
+        </tr>
+</table>
+
+<hr />
+
+<h3>Content</h3>
+
+<div class="card">
+    <div>
+        @if (!Model.UserIsAuthor)
+        {
+            @if (Model.UserHasLiked)
+            {
+                <a asp-controller="Home" asp-action="React" asp-route-id="@Model.Id">Dislike</a>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="React" asp-route-id="@Model.Id">Like</a>
+            }
+        }
+    </div>
+    <div class="card-body">
+        @Html.Raw(Model.Content)
+    </div>
+</div>
