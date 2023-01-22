@@ -11,9 +11,17 @@ namespace minicore.Models.LanguageTool
 
         public string? Message { get; set; }
 
-        public string[]? Replacements { get; set; }
+        public IEnumerable<Replacement> Replacements { get; set; }
 
         public string? ShortMessage { get; set; }
+
+        public Context Context { get; set; }
+
+        public string Sentence { get; set; }
+
+        public bool IgnoreForIncompleteSentence { get; set; }
+
+        public long ContextForSureMatch { get; set; }
     }
 }
 

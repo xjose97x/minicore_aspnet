@@ -1,0 +1,28 @@
+﻿@model minicore.ViewModels.CreateViewModel
+@{
+    ViewData["Title"] = "Create blog post";
+}
+
+<h1>New blog post</h1>
+<div>
+    <form asp-action="Create">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Title)
+            @Html.EditorFor(m => m.Title)
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CategoryId)
+            @Html.DropDownListFor(m => m.CategoryId, Model.Categories)
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Content)
+            @Html.TextAreaFor(m => m.Content)
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+        <input type="submit" value="Create" />
+    </form>
+</div>

@@ -74,6 +74,31 @@ namespace minicore.Models
 					await userStore.CreateAsync(user1);
 					await userStore.CreateAsync(user2);
 				}
+
+				if (!context.Categories.Any())
+				{
+					await context.AddRangeAsync(
+						new Category("Music"),
+						new Category("Videogames"),
+						new Category("Technology"),
+						new Category("Politics"),
+						new Category("Religion"),
+						new Category("Movies"),
+						new Category("Other")
+					);
+					await context.SaveChangesAsync();
+				}
+
+				if (!context.Tags.Any()) {
+					await context.AddRangeAsync(
+						new Tag("Tag 1"),
+						new Tag("Tag 2"),
+						new Tag("Tag 3"),
+						new Tag("Tag 4"),
+						new Tag("Tag 5")
+					);
+					await context.SaveChangesAsync();
+				}
 			}
 		}
 	}

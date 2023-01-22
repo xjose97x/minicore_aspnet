@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using minicore.Interfaces;
 using minicore.Models;
 using minicore.Models.LanguageTool;
+using Newtonsoft.Json;
 
 namespace minicore.Services
 {
@@ -41,19 +43,30 @@ namespace minicore.Services
 
             var httpClient = httpClientFactory.CreateClient();
 
-            var httpResponseMessage = await httpClient.PostAsJsonAsync($"https://languagetool.org/api/v2/check", new
+            IEnumerable<KeyValuePair<string, string>> data = new List<KeyValuePair<string, string>>()
             {
-                text = text,
-                language = "en-US",
-            });
+                new KeyValuePair<string, string>("text", text),
+                new KeyValuePair<string, string>("language", "en-US")
+            };
+
+            var content = new FormUrlEncodedContent(data);
+            var httpResponseMessage = await httpClient.PostAsync($"https://languagetool.org/api/v2/check", content);
+            var bodyMessage = await httpResponseMessage.Content.ReadAsStringAsync();
 
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                throw new Exception($"LanguageTool API call failed with status code {httpResponseMessage.StatusCode}");
+                throw new Exception($"LanguageTool API call failed with status code {httpResponseMessage.StatusCode}. Message: {bodyMessage}");
             }
 
-            using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
-            var languageToolResult = await JsonSerializer.DeserializeAsync<LanguageToolResult>(contentStream);
+            var rawResult = JsonConvert.DeserializeObject<RawResult>(bodyMessage);
+
+            var languageToolResult = new LanguageToolResult
+            {
+                Original = text,
+                Matches = rawResult.Matches,
+                Autofix = string.Empty // todo figure out how to autofix
+            };
+
             return languageToolResult!;
         }
     }

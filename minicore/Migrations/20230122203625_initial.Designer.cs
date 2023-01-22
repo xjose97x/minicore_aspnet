@@ -12,7 +12,7 @@ using minicore.Data;
 namespace minicore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230117032533_initial")]
+    [Migration("20230122203625_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -239,19 +239,17 @@ namespace minicore.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<float>("FinalScore")
-                        .HasColumnType("real");
 
                     b.Property<float>("FleschKinkaidScore")
                         .HasColumnType("real");
 
                     b.Property<string>("LanguageToolMatches")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Summary")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
